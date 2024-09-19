@@ -28,12 +28,12 @@ it('meta data retrieval works case-insensitive', function () {
     $uppercaseAsset = AssetContainer::find($containerName)->makeAsset(
         'path/to/FILE.txt'
     );
-
+    // paths are treated case-insensitive
     expect($asset->exists())->toBeTrue();
-    
-    if($uppercaseAsset->exists())
-    {
-        expect(Storage::get($uppercaseAsset->path()))->toEqual(Storage::get($asset->path()))
-            ->and($uppercaseAsset->data())->toEqual($asset->data());
-    }
+    expect($uppercaseAsset->exists())->toBeTrue();
+    // content is equal
+    expect(Storage::get($uppercaseAsset->path()))->toEqual(Storage::get($asset->path()));
+
+    // meta data is not equal
+    expect($uppercaseAsset->data())->toEqual($asset->data());
 });
